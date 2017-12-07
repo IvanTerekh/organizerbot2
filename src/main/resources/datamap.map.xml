@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-map xmlns="http://cayenne.apache.org/schema/9/modelMap"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://cayenne.apache.org/schema/9/modelMap http://cayenne.apache.org/schema/9/modelMap.xsd"
+	 project-version="9">
+	<property name="defaultPackage" value="com.intetics.organizerbot.entities"/>
+	<db-entity name="Lesson">
+		<db-attribute name="DATE" type="DATE"/>
+		<db-attribute name="LESSON_ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="PROFESSOR_ID" type="INTEGER"/>
+		<db-attribute name="ROOM" type="VARCHAR" length="50"/>
+		<db-attribute name="SUBJECT_ID" type="INTEGER"/>
+		<db-attribute name="TIME" type="TIME"/>
+		<db-attribute name="TYPE" type="INTEGER"/>
+	</db-entity>
+	<db-entity name="Professors">
+		<db-attribute name="PROFESSOR_ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="PROFESSOR_NAME" type="VARCHAR" length="200"/>
+	</db-entity>
+	<db-entity name="Subject">
+		<db-attribute name="SUBJECT_ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="SUBJECT_TITLE" type="VARCHAR" length="200"/>
+		<db-attribute name="USER_ID" type="INTEGER"/>
+	</db-entity>
+	<db-entity name="Users">
+		<db-attribute name="INFO" type="VARCHAR" length="200"/>
+		<db-attribute name="USER_ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="USER_NAME" type="VARCHAR" length="200"/>
+	</db-entity>
+	<obj-entity name="Lesson" className="com.intetics.organizerbot.entities.Lesson" dbEntityName="Lesson">
+		<obj-attribute name="date" type="java.time.LocalDate" db-attribute-path="DATE"/>
+		<obj-attribute name="room" type="java.lang.String" db-attribute-path="ROOM"/>
+		<obj-attribute name="time" type="java.time.LocalTime" db-attribute-path="TIME"/>
+		<obj-attribute name="type" type="int" db-attribute-path="TYPE"/>
+	</obj-entity>
+	<obj-entity name="Professors" className="com.intetics.organizerbot.entities.Professors" dbEntityName="Professors">
+		<obj-attribute name="professorName" type="java.lang.String" db-attribute-path="PROFESSOR_NAME"/>
+	</obj-entity>
+	<obj-entity name="Subject" className="com.intetics.organizerbot.entities.Subject" dbEntityName="Subject">
+		<obj-attribute name="subjectTitle" type="java.lang.String" db-attribute-path="SUBJECT_TITLE"/>
+		<obj-attribute name="userId" type="int" db-attribute-path="USER_ID"/>
+	</obj-entity>
+	<obj-entity name="Users" className="com.intetics.organizerbot.entities.Users" dbEntityName="Users">
+		<obj-attribute name="id" type="int" db-attribute-path="USER_ID"/>
+		<obj-attribute name="info" type="java.lang.String" db-attribute-path="INFO"/>
+		<obj-attribute name="userName" type="java.lang.String" db-attribute-path="USER_NAME"/>
+	</obj-entity>
+	<db-relationship name="professor" source="Lesson" target="Professors" toMany="false">
+		<db-attribute-pair source="PROFESSOR_ID" target="PROFESSOR_ID"/>
+	</db-relationship>
+	<db-relationship name="subjects" source="Lesson" target="Subject" toMany="false">
+		<db-attribute-pair source="SUBJECT_ID" target="SUBJECT_ID"/>
+	</db-relationship>
+	<db-relationship name="lessons" source="Professors" target="Lesson" toMany="true">
+		<db-attribute-pair source="PROFESSOR_ID" target="PROFESSOR_ID"/>
+	</db-relationship>
+	<db-relationship name="lessons" source="Subject" target="Lesson" toMany="true">
+		<db-attribute-pair source="SUBJECT_ID" target="SUBJECT_ID"/>
+	</db-relationship>
+	<db-relationship name="user" source="Subject" target="Users" toMany="false">
+		<db-attribute-pair source="USER_ID" target="USER_ID"/>
+	</db-relationship>
+	<db-relationship name="subjects" source="Users" target="Subject" toMany="true">
+		<db-attribute-pair source="USER_ID" target="USER_ID"/>
+	</db-relationship>
+	<obj-relationship name="professor" source="Lesson" target="Professors" deleteRule="Nullify" db-relationship-path="professor"/>
+	<obj-relationship name="subjects" source="Lesson" target="Subject" deleteRule="Nullify" db-relationship-path="subjects"/>
+	<obj-relationship name="lessons" source="Professors" target="Lesson" deleteRule="Deny" db-relationship-path="lessons"/>
+	<obj-relationship name="lessons" source="Subject" target="Lesson" deleteRule="Deny" db-relationship-path="lessons"/>
+	<obj-relationship name="user" source="Subject" target="Users" deleteRule="Nullify" db-relationship-path="user"/>
+	<obj-relationship name="subjects" source="Users" target="Subject" deleteRule="Deny" db-relationship-path="subjects"/>
+</data-map>
