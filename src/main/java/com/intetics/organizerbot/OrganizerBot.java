@@ -8,8 +8,6 @@ import com.intetics.organizerbot.entities.LessonType;
 import com.intetics.organizerbot.entities.Professors;
 import com.intetics.organizerbot.entities.Subject;
 import com.intetics.organizerbot.keyboards.Keyboards;
-import javassist.bytecode.SignatureAttribute;
-import jdk.internal.org.objectweb.asm.Type;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.api.objects.CallbackQuery;
