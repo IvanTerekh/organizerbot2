@@ -1,1 +1,1 @@
-worker: java -jar target/organizerbot-1.0-jar-with-dependencies.jar
+worker: java -jar organizerbot-1.0-jar-with-dependencies.jar
